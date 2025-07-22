@@ -15,6 +15,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
-app.use('/journals', journalRoutes);
+app.use('/api/journals', journalRoutes);
+
 
 app.listen(5000)

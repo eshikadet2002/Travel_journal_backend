@@ -37,3 +37,25 @@ exports.updateEntry = async (req, res) => {
     res.status(500).json({ message: 'Server Error', error: err.message });
   }
 };
+// Create a new journal entry
+exports.createEntry = async (req, res) => {
+  try {
+    const newEntry = await journalModel.create(req.body);
+    res.status(201).json(newEntry);
+  } catch (err) {
+    res.status(500).json({ message: 'Server Error', error: err.message });
+  }
+};
+// Get a single entry by ID
+exports.getEntryById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const entry = await journalModel.findById(id);
+    if (!entry) {
+      return res.status(404).json({ message: "Entry not found" });
+    }
+    res.json(entry);
+  } catch (err) {
+    res.status(500).json({ message: 'Server Error', error: err.message });
+  }
+};

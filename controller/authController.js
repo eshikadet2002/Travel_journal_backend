@@ -1,4 +1,4 @@
-const { usersModel } = require('../models/userModel');
+const { userModel } = require('../models/userModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
@@ -13,7 +13,7 @@ const signUp = asyncWrapper(async (req, res) => {
   const { name, email, password } = req.body;
 
   // Check if user already exists
-  const existingUser = await usersModel.findOne({ email });
+  const existingUser = await userModel.findOne({ email });
   if (existingUser) {
     return res.status(400).json({
       status: false,
@@ -23,7 +23,7 @@ const signUp = asyncWrapper(async (req, res) => {
 
   // Create new user
   const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = await usersModel.create({
+  const newUser = await userModel.create({
     name,
     email,
     password: hashedPassword,
@@ -56,7 +56,7 @@ const signIn = asyncWrapper(async (req, res) => {
   const { email, password } = req.body;
 
   // Check if user exists
-  const user = await usersModel.findOne({ email });
+  const user = await userModel.findOne({ email });
   if (!user) {
     return res.status(400).json({
       status: false,
