@@ -1,41 +1,16 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const JournalSchema = new Schema(
-  {
-    userId: {
-      type: Schema.Types.ObjectId,
-      ref: 'users',
-      required: true
-    },
-    photo: {
-      type: String,
-      trim: true,
-      required: [true, 'Photo URL is required']
-    },
-    location: {
-      type: String,
-      trim: true,
-      required: [true, 'Location is required'],
-      maxlength: [100, 'Location must be at most 100 characters']
-    },
-    experience: {
-      type: String,
-      trim: true,
-      required: [true, 'Experience is required'],
-      maxlength: [1000, 'Experience must be at most 1000 characters']
-    },
-    status: {
-      type: String,
-      enum: ['public', 'private', 'draft'],
-      default: 'public'
-    }
+const journalSchema = new mongoose.Schema({
+  photo: { type: String, required: true },
+  location: { type: String, required: true },
+  experience: { type: String, required: true },
+  status: {
+    type: String,
+    enum: ['public', 'private', 'draft'],
+    default: 'public'
   },
-  { timestamps: true }
-);
+  userId: { type: String, required: true },
+  createdAt: { type: Date, default: Date.now }
+});
 
-const journalModel = mongoose.model('journals', JournalSchema);
-
-module.exports = {
-  journalModel,
-};
+module.exports = mongoose.model('Journal', journalSchema);
